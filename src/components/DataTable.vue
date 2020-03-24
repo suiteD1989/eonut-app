@@ -59,6 +59,7 @@ export default {
         * sortEvents takes the selected input & asigns it to the data prop initSort
         */
         sortEvents(selected) {
+            if (selected === 'title') { return }
             if(selected === this.initSort) {
                 this.initSortDirection = this.initSortDirection === 'asc' ? 'desc' : 'asc';
             }
