@@ -1,28 +1,63 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="container is-fluid has-text-centered">
+      <h1>Daragh Cassidy | Earth Observatory Natural Events Tracker</h1>
+      <div>
+        <DataTable :nasaData="this.nasaData"/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import 'bulma/css/bulma.css'
+
+const axios = require('axios');
+const openEvents = 'https://eonet.sci.gsfc.nasa.gov/api/v2.1/events?limit=25&status=open';
+const closedEvents = 'https://eonet.sci.gsfc.nasa.gov/api/v2.1/events?limit=25&status=closed';
+
+/**
+* Fetch open/closed events from NASA 
+*/
+const getOpenEvents = axios.get(openEvents);
+const getClosedEvents = axios.get(closedEvents);
+
+import DataTable from './components/DataTable.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    DataTable
+  },
+  data () {
+    return {
+      nasaData: []
+    }
+  },
+  methods: {
+    /**
+    * This methods queries the NASA eonet enpoint and returns the data 
+    */
+    fetchData () {
+      axios.all([getOpenEvents, getClosedEvents]).then(axios.spread((...res) => {
+        const openEventsRes = res[0].data.events;
+        const closedEventRes = res[1].data.events;
+        this.nasaData = openEventsRes.concat(closedEventRes);
+        console.log(this.nasaData);
+        // use/access the results 
+      })).catch(err => {
+        console.log(err)
+        // react on errors.
+      })
+    }
+  },
+  mounted () {
+    this.fetchData();
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss">
+
 </style>
