@@ -1,17 +1,13 @@
 <template>
   <div id="app">
-    <div class="container is-fluid has-text-centered">
-      <h1>Daragh Cassidy | Earth Observatory Natural Events Tracker</h1>
-      <div>
-        <DataTable :nasaData="this.nasaData"/>
-      </div>
-    </div>
+    <Heading />
+    <DataTable :nasaData="this.nasaData"/>
   </div>
 </template>
 
 <script>
 
-import 'bulma/css/bulma.css'
+import 'bootstrap-4-grid/css/grid.min.css'
 
 const axios = require('axios');
 const openEvents = 'https://eonet.sci.gsfc.nasa.gov/api/v2.1/events?limit=25&status=open';
@@ -24,10 +20,12 @@ const getOpenEvents = axios.get(openEvents);
 const getClosedEvents = axios.get(closedEvents);
 
 import DataTable from './components/DataTable.vue';
+import Heading from './components/Heading.vue';
 
 export default {
   name: 'App',
   components: {
+    Heading,
     DataTable
   },
   data () {
@@ -59,5 +57,23 @@ export default {
 </script>
 
 <style lang="scss">
-
+  body {
+    margin: 0;
+    font-family: 'Cabin', sans-serif;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+  // Global
+  .blur {
+    transition: all .25s ease-in-out;
+    filter: blur(5px);
+  }
+  // Overrides
+  a:link {
+    text-decoration: none;
+  }
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
 </style>

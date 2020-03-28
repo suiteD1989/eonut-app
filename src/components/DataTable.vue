@@ -1,49 +1,50 @@
 <template>
-    <div>
-        <table class="table is-fullwidth">
-            <thead>
-                <tr>
-                    <th v-for="heading in this.tableHeadings" 
-                        :key="heading"
-                        @click="sortEvents(heading.toLowerCase())">
-                        {{ heading }}
-                    </th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr v-for="event in sortedEvents" :key="event.EONET_4618">
-                    <td>
-                        {{ event.title }}
-                    </td>
-                    <td>
-                        {{ event.geometries[0].date }}
-                    </td>
-                    <td v-if="event.closed">
-                        closed
-                    </td>
-                    <td v-else>
-                        open
-                    </td>
-                    <td>
-                        {{ event.categories[0].title }}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="container">
+        <hr>
+        <div class="row">
+            <div v-for="heading in this.tableHeadings" 
+                :key="heading"
+                @click="sortEvents(heading.toLowerCase())"
+                class="col event-heading">
+                {{ heading }}
+            </div>
+        </div>
+        <hr>
+        <div v-for="event in sortedEvents" :key="event.id" class="row event" @click="toggleEvent(event.id)">
+            <div class="col data-cell">
+                {{ event.geometries[0].date }}
+            </div>
+            <div v-if="event.closed" class="col data-cell">
+                closed
+            </div>
+            <div  v-else class="col data-cell">
+                open
+            </div>
+            <div class="col data-cell">
+                {{ event.categories[0].title }}
+            </div>
+            <div class="col-12">
+                <EventInfoModal :event="event"/>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+
+import EventInfoModal from './EventInfoModal';
+
 export default {
     name: 'DataTable',
+    components: {
+        EventInfoModal
+    },
     props: {
         nasaData: []
     },
     data() {
         return {
             tableHeadings: [
-                'Title',
                 'Date',
                 'Status',
                 'Category'
@@ -59,7 +60,6 @@ export default {
         * sortEvents takes the selected input & asigns it to the data prop initSort
         */
         sortEvents(selected) {
-            if (selected === 'title') { return }
             if(selected === this.initSort) {
                 this.initSortDirection = this.initSortDirection === 'asc' ? 'desc' : 'asc';
             }
@@ -89,6 +89,11 @@ export default {
                 return objValue;
             }
             
+        },
+        toggleEvent (id) {
+            console.log(id)
+            const event = document.getElementById(id)
+            event.classList.toggle("toggle-display");
         }
     },
     computed:{
@@ -112,5 +117,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+    .event {
+        padding: 1.5em 0;
+    }
 </style>
