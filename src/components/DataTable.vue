@@ -1,6 +1,5 @@
 <template>
-    <div class="container">
-        <hr>
+    <div class="container" v-if="sortedEvents.length > 0">
         <div class="row">
             <div v-for="heading in this.tableHeadings" 
                 :key="heading"
@@ -9,21 +8,21 @@
                 {{ heading }}
             </div>
         </div>
-        <hr>
-        <div v-for="event in sortedEvents" :key="event.id" class="row event" @click="toggleEvent(event.id)">
+        
+        <div v-for="event in sortedEvents" :key="event.id" class="row event" @click="toggleEvent(event.id)" v-bind:class="{ closed: event.closed }">
             <div class="col data-cell">
                 {{ event.geometries[0].date }}
             </div>
-            <div v-if="event.closed" class="col data-cell">
-                closed
+            <div v-if="event.closed" class="col data-cell event-closed">
+                Closed
             </div>
-            <div  v-else class="col data-cell">
-                open
+            <div  v-else class="col data-cell event-open">
+                Open
             </div>
             <div class="col data-cell">
                 {{ event.categories[0].title }}
             </div>
-            <div class="col-12">
+            <div class="col-12 data-row">
                 <EventInfoModal :event="event"/>
             </div>
         </div>
@@ -90,9 +89,12 @@ export default {
             }
             
         },
+        /**
+        * @param { id } - ID associated with DOM element
+        *  toggleEvent takes in the ID of an element in the DOM and toggles it's visibilty 
+        */
         toggleEvent (id) {
-            console.log(id)
-            const event = document.getElementById(id)
+            const event = document.getElementById(id);
             event.classList.toggle("toggle-display");
         }
     },
@@ -117,7 +119,45 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .event-heading {
+        border-top: solid #177e89 1px;
+        border-bottom: solid #177e89 1px;
+        padding: 1em 0;
+        text-align: center;
+        color: #177e89;
+        font-size: 1.5em;
+        transition: all 0.25s linear;
+        &:hover {
+            cursor: pointer;
+            background: #177e89;
+            color: #fff;
+        }
+    }
     .event {
-        padding: 1.5em 0;
+        border-bottom: solid #177e89 1px;
+        transition: all 0.25s linear;
+        &:hover {
+            cursor: pointer;
+            background: #177e89;
+            border-bottom: solid white 1px;
+            color: white;
+        }
+        .event-closed {
+            color: #c31313;
+        }
+        .event-open {
+            color: #169816;
+        }
+        .data-cell {
+            text-align: center;
+            font-size: 1.2em;
+            padding: 1.5em 0;
+        }
+        .data-row {
+            padding: 0;
+        }
+    }
+    .closed {
+        background: #d4d4d4;
     }
 </style>

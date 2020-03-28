@@ -13,7 +13,7 @@ export default {
     name: 'Heading',
     data() {
         return {
-            introText: 'Daragh Cassidy | Earth Observatory Natural Events Tracker'
+            introText: 'Earth Observatory Natural Events Tracker'
         }
     }
 }
@@ -22,5 +22,6 @@ export default {
 <style lang="scss" scoped>
     h1 {
         text-align: center;
+        color: #177e89;
     }
 </style>

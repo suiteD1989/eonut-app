@@ -1,6 +1,13 @@
 <template>
   <div id="app">
     <Heading />
+    <div class="container">
+      <div class="row">
+        <div class="col loading">
+          <LoadingCircle v-if="!this.dataLoaded"/>
+        </div>
+      </div>
+    </div>
     <DataTable :nasaData="this.nasaData"/>
   </div>
 </template>
@@ -21,16 +28,19 @@ const getClosedEvents = axios.get(closedEvents);
 
 import DataTable from './components/DataTable.vue';
 import Heading from './components/Heading.vue';
+import LoadingCircle from 'vue-loading-spinner/src/components/Circle';
 
 export default {
   name: 'App',
   components: {
     Heading,
-    DataTable
+    DataTable,
+    LoadingCircle
   },
   data () {
     return {
-      nasaData: []
+      nasaData: [],
+      dataLoaded: false
     }
   },
   methods: {
@@ -42,11 +52,9 @@ export default {
         const openEventsRes = res[0].data.events;
         const closedEventRes = res[1].data.events;
         this.nasaData = openEventsRes.concat(closedEventRes);
-        console.log(this.nasaData);
-        // use/access the results 
+        this.dataLoaded = true;
       })).catch(err => {
         console.log(err)
-        // react on errors.
       })
     }
   },
@@ -57,6 +65,10 @@ export default {
 </script>
 
 <style lang="scss">
+  #app {
+    background: #f7f7f7;
+    height: 100vh;
+  }
   body {
     margin: 0;
     font-family: 'Cabin', sans-serif;
@@ -67,6 +79,10 @@ export default {
   .blur {
     transition: all .25s ease-in-out;
     filter: blur(5px);
+  }
+  .loading {
+    padding-top: 3em;
+    text-align: center;
   }
   // Overrides
   a:link {

@@ -12,7 +12,8 @@
     "bootstrap-4-grid": "^3.4.0",
     "bulma": "^0.8.1",
     "core-js": "^3.6.4",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-loading-spinner": "^1.0.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.2.0",
