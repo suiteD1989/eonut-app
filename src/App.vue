@@ -74,6 +74,7 @@ export default {
     font-family: 'Cabin', sans-serif;
     overflow-x: hidden;
     overflow-y: scroll;
+    color: rgba(8, 29, 31, 0.8);
   }
   // Global
   .blur {

@@ -27,7 +27,7 @@ export default {
         visibility: hidden;
         opacity: 0;
         transition: visibility 0s, opacity 0.5s linear;
-        background: #177e89;
+        background: rgba(23, 126, 137, 0.6);
         color: #fff;
         text-transform: capitalize;
         text-align: center;
@@ -36,7 +36,7 @@ export default {
             color: #fff;
             transition: all 0.25s linear;
             &:hover {
-                color: #8e936d;
+                color: rgba(23, 126, 137);
             }
         }
         .detail-data {

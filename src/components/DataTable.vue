@@ -129,7 +129,7 @@ export default {
         transition: all 0.25s linear;
         &:hover {
             cursor: pointer;
-            background: #177e89;
+            background: rgba(23, 126, 137);
             color: #fff;
         }
     }
@@ -138,7 +138,7 @@ export default {
         transition: all 0.25s linear;
         &:hover {
             cursor: pointer;
-            background: #177e89;
+            background: rgba(23, 126, 137, 0.4);
             border-bottom: solid white 1px;
             color: white;
         }
